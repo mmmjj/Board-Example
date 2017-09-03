@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- properties 위치 지정하기 -->
+   <properties resource="com/mybatis/jdbc.properties" />
+    <!-- type="a"의 a를 간편하게 쓰려고 별칭을 줌, mapper에서 사용할 수 있음 -->
+   <typeAliases>
+    <typeAlias type="com.dto.MyBoardDTO" alias="MyBoardDTO"/>
+   </typeAliases>
+   
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${jdbc.driver}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.userid}" />
+				<property name="password" value="${jdbc.passwd}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<!-- mapper의 위치를 추가 해주어야함 -->
+	<mappers>
+		<mapper resource="com/mybatis/MyBoardMapper.xml" />
+	</mappers>
+</configuration>
+
+
+
