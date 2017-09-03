@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.MyBoardMapper">
+
+
+
+
+	<insert id="boardWrite" parameterType="MyBoardDTO">
+		insert into myboard (num, title, author, content)
+		values
+		(myboard_seq.nextval, #{title}, #{author}, #{content})<!-- dto의 변수명을넣고 
+			hash맵은 key값을 넣는다 -->
+		<!-- #안에들어가는것은 java 변수명!db컬럼명이아님 -->
+
+	</insert>
+
+
+	<select id="selectByNum" resultType="MyBoardDTO" parameterType="int">
+		select num, title, author, content, to_char(writeday, 'yyyy/mm/dd')
+		writeday, readCnt
+		from myboard
+		where num = #{num}
+	</select>
+	<update id="readCnt" parameterType="int">
+		update myboard
+		set readCnt = readCnt +1
+		where num = #{num}
+	</update>
+	
+	
+	<delete id="deleteByNum" parameterType="int">
+		delete from myboard
+		where num = #{num}
+	</delete>
+	
+
+	
+	
+	<select id="selectAll" parameterType="hashmap" resultType="MyBoardDTO">
+		<!-- db컬럼명과 mapper의 변수명이 일치하여 자동으로 저장된다 따라서 alias를 줘야한다 -->
+		select num, title, author, to_char(writeday, 'yyyy/mm/dd') writeday,
+		readCnt <!-- 목록에는 content는 다 보여줄 필요가없다 -->
+		from myboard
+		<if test="searchName == 'title'">
+			where title like '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchName == 'author'">
+			where author like '%'||#{searchValue}||'%'
+		</if>
+		order by num desc
+	</select>
+	
+		<!-- 8/22 -->
+		
+	<update id="updateByNum" parameterType="MyBoardDTO">
+	    update myboard
+	    set title=#{title} , author=#{author} , content=#{content}
+	    where num = #{num}
+	</update>
+	
+	<select id="search" parameterType="hashmap" resultType="MyBoardDTO">
+		select num, title, author, to_char(writeday, 'yyyy/mm/dd') writeday, readCnt
+		from myboard
+		<if test="searchName == 'title'">
+			where title like '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchName == 'author'">
+			where author like '%'||#{searchValue}||'%'
+		</if>
+		order by num desc
+	</select>
+	
+	<select id="totalCount" resultType="int">
+		select count(*)
+		from myboard
+	</select>
+	
+	<select id="searchCount" resultType="int" parameterType="hashmap">
+		select count(*)
+		from myboard
+		<if test="searchName == 'title'">
+			where title like '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchName == 'author'">
+			where author like '%'||#{searchValue}||'%'
+		</if>
+	</select>
+
+</mapper>

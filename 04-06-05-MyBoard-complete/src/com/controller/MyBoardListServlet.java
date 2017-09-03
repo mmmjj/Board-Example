@@ -21,7 +21,7 @@ import com.service.MyBoardService;
  */
 @WebServlet("/MyBoardListServlet")
 public class MyBoardListServlet extends HttpServlet implements Servlet {
-  
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String curPage = request.getParameter("curPage"); //list.jsp에 1 2 3 4 --> 이게 넘어오는것
