@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.MyBoardMapper">
+
+<select id="myBoardList" resultType="MyBoardDTO">
+select num, title, author, content,
+	   to_char(writeday,'mm/dd') writeday, readCnt
+from myboard
+order by num desc
+</select>
+
+<select id="myBoardSearchList" resultType="MyBoardDTO" parameterType="string">
+select num, title, author, content,
+	   to_char(writeday,'mm/dd') writeday, readCnt
+from myboard
+<if test="=='title'">
+	where title=#{search}
+</if>
+<if test="=='content'">
+	where content=#{content}
+</if>
+order by num desc
+</select>
+</mapper>
