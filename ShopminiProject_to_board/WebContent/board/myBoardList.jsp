@@ -11,14 +11,15 @@
      <table border="0">	
 	  <tr>
 	   <td>
+
+	   <form action="list.board">
 		<select name="search">
 			<option value="title">제목</option>
 			<option value="content">내용</option>
-			<option value="title&content">제목,내용</option>
-			<option value="author">작성자</option>
-			<option value="all">전체</option>
 		</select>
 		<input type="text"/>
+		<input type="submit" value="검색">
+		</form>
 	   </td>
 	  </tr>
 	 </table> 
@@ -33,7 +34,7 @@
 	<td width="60" align="center">조회수</td>
 </tr>
 
-<c:forEach var="bDTO" items="${bList }">
+<c:forEach var="bDTO" items="${bList.getList() }">
 	<tr>
 		<td align="center">${bDTO.num }</td>
 		<td align="left" >&nbsp;&nbsp;${ bDTO.title }</td>

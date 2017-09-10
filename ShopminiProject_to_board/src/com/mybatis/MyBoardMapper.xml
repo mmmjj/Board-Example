@@ -4,23 +4,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mybatis.MyBoardMapper">
 
-<select id="myBoardList" resultType="MyBoardDTO">
-select num, title, author, content,
-	   to_char(writeday,'mm/dd') writeday, readCnt
-from myboard
-order by num desc
-</select>
+	<select id="myBoardList" resultType="MyBoardDTO">
+		select num, title, author, content,
+		to_char(writeday,'mm/dd') writeday, readCnt
+		from myboard
+		order by num desc
+	</select>
 
-<select id="myBoardSearchList" resultType="MyBoardDTO" parameterType="string">
-select num, title, author, content,
-	   to_char(writeday,'mm/dd') writeday, readCnt
-from myboard
-<if test="=='title'">
-	where title=#{search}
-</if>
-<if test="=='content'">
-	where content=#{content}
-</if>
-order by num desc
-</select>
+	<select id="myBoardSearchList" resultType="MyBoardDTO"
+		parameterType="string">
+		select num, title, author, content,
+		to_char(writeday,'mm/dd') writeday, readCnt
+		from myboard
+		where author=#{userId}
+		<if test="searchName == 'title'">
+			and title like '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchName == 'content'">
+			and content like '%'||#{searchValue}||'%'
+		</if>
+
+		order by num desc
+	</select>
+
+
+	<select id="totalPage" resultType="int" parameterType="string">
+		select count(*)
+		from myboard
+		where author=#{userId}
+
+	</select>
+
+	<select id="searchPage" resultType="int" parameterType="hashmap">
+		select count(*)
+		from myboard
+
+		where author=#{userId}
+		<if test="searchName == 'title'">
+			and title like '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchName == 'content'">
+			and content like '%'||#{searchValue}||'%'
+		</if>
+
+	</select>
+
+
+
+
 </mapper>
