@@ -47,4 +47,9 @@ public class MyBoardDAO {
 		System.out.println(n);
 		return n;
 	}
+	
+	public MyBoardDTO boardretrieve(SqlSession session, int num) {
+		MyBoardDTO dto = session.selectOne("boardretrieve",num);
+		return dto;
+	}
 }

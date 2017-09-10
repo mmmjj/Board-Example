@@ -37,7 +37,7 @@
 <c:forEach var="bDTO" items="${bList.getList() }">
 	<tr>
 		<td align="center">${bDTO.num }</td>
-		<td align="left" >&nbsp;&nbsp;${ bDTO.title }</td>
+		<td align="left" >&nbsp;&nbsp;<a href="retrieve.board?num=${bDTO.num }">${ bDTO.title }</a></td>
 		<td align="center">${bDTO.author }</td>
 		<td align="center">${bDTO.writeday }</td>
 		<td align="center">${bDTO.readCnt }</td>

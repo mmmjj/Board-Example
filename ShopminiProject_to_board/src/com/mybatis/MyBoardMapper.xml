@@ -55,6 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	values(myboard_seq.nextval, #{title},#{author},#{content})
 	</insert>
 
+	<select id="boardretrieve" parameterType="int" resultType="MyBoardDTO">
+	select num, title, author, content,
+		to_char(writeday,'yy/mm/dd') writeday, readCnt
+	from myboard
+	where num =#{num}
+	
+	</select>
 
 
 </mapper>

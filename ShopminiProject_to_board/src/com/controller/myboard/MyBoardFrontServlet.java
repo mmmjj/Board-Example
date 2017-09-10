@@ -87,6 +87,21 @@ public class MyBoardFrontServlet extends HttpServlet {
 				}
 				target="list.board";
 				response.sendRedirect(target);
+			}else if (command.equals("/retrieve.board")) {
+				target="board/boardretrieve.jsp";
+				String num = request.getParameter("num");
+				
+				try {
+					MyBoardDTO rdto = service.boardretrieve(Integer.parseInt(num));
+					request.setAttribute("rdto", rdto);
+				} catch (NumberFormatException | MyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				RequestDispatcher dis = request.getRequestDispatcher(target);
+				dis.forward(request, response);
 			}
 
 		}
