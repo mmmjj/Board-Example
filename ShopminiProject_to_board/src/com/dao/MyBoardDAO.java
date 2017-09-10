@@ -52,4 +52,10 @@ public class MyBoardDAO {
 		MyBoardDTO dto = session.selectOne("boardretrieve",num);
 		return dto;
 	}
+	
+	public int boardupdate(SqlSession session, MyBoardDTO dto) {
+		
+		int n = session.update("boardupdate",dto);
+		return n;
+	}
 }

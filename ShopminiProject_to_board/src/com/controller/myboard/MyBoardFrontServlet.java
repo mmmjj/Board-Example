@@ -15,6 +15,7 @@ import com.dto.MemberDTO;
 import com.dto.MyBoardDTO;
 import com.dto.PageDTO;
 import com.exception.MyException;
+import com.oracle.jrockit.jfr.RequestableEvent;
 import com.service.MyBoardService;
 
 @WebServlet("*.board")
@@ -98,10 +99,34 @@ public class MyBoardFrontServlet extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				RequestDispatcher dis = request.getRequestDispatcher(target);
+				dis.forward(request, response);
+			}else if(command.equals("/update.board")) {
+				target="retrieve.board";
 				
+				String num = request.getParameter("num");
+				System.out.println(num);
+				String title = request.getParameter("title");
+				System.out.println(title);
+				String content = request.getParameter("content");
+				
+				MyBoardDTO dto = new MyBoardDTO();
+				dto.setNum(Integer.parseInt(num));
+				dto.setTitle(title);
+				dto.setContent(content);
+				
+				try {
+					service.boardupdate(dto);
+					//수정이완료되었씁니다팝업창
+					
+				} catch (MyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				RequestDispatcher dis = request.getRequestDispatcher(target);
 				dis.forward(request, response);
+				
 			}
 
 		}

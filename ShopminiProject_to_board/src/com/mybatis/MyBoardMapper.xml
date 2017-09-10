@@ -62,6 +62,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where num =#{num}
 	
 	</select>
+	
+	<update id="boardupdate" parameterType="MyBoardDTO">
+	update myboard
+	set title=#{title}, content=#{content}
+	where num = #{num}
+	
+	</update>
 
 
 </mapper>

@@ -78,4 +78,18 @@ public class MyBoardService {
 		}
 		return dto;
 	}
+	
+	public void boardupdate(MyBoardDTO dto) throws MyException {
+		SqlSession session = MybatisTemplate.openSession();
+		MyBoardDAO dao = new MyBoardDAO();
+		
+		try {
+			int n = dao.boardupdate(session, dto);
+			if(n == 1) session.commit();
+		}catch(Exception e) {
+			throw new MyException("boardupdate 예외");
+		}finally {
+			session.close();
+		}
+	}
 }
