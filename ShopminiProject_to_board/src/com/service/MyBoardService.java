@@ -46,5 +46,22 @@ public class MyBoardService {
 		
 	}
 	
+	public void writeboard(MyBoardDTO dto) throws MyException {
+		SqlSession session = MybatisTemplate.openSession();
+		MyBoardDAO dao = new MyBoardDAO();
+		try {
+			int n = dao.writeboard(session, dto);
+			if(n == 1) {
+				session.commit();
+			}else {
+				session.rollback();
+			}
+		}catch(Exception e) {
+			throw new MyException("writeboard 예외");
+		}finally{
+			session.close();
+		}
+	}
+	
 
 }

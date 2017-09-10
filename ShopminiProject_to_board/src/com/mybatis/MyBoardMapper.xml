@@ -11,7 +11,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by num desc
 	</select>
 
-	<select id="myBoardSearchList" resultType="MyBoardDTO"
+
+	 <select id="myBoardSearchList" resultType="MyBoardDTO"
 		parameterType="string">
 		select num, title, author, content,
 		to_char(writeday,'mm/dd') writeday, readCnt
@@ -25,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 
 		order by num desc
-	</select>
+	</select> 
 
 
 	<select id="totalPage" resultType="int" parameterType="string">
@@ -49,6 +50,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	</select>
 
+	<insert id="writeboard" parameterType="MyBoardDTO">
+	insert into myboard (num, title, author, content)
+	values(myboard_seq.nextval, #{title},#{author},#{content})
+	</insert>
 
 
 

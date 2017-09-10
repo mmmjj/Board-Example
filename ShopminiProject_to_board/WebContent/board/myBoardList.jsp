@@ -49,6 +49,10 @@
 		<jsp:include page="boardpage.jsp"/>
 	</td>
 </tr>
+<tr>
+	<td colspan="5" align="right"> <a href="writeui.board">글 작성</a>
+	</td>
+</tr>
 
 </table>
 

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.dto.MemberDTO;
+import com.dto.MyBoardDTO;
 import com.dto.PageDTO;
 import com.exception.MyException;
 import com.service.MyBoardService;
@@ -27,7 +28,7 @@ public class MyBoardFrontServlet extends HttpServlet {
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 
 		if (login == null) {
-			response.sendRedirect("error.jsp");
+			response.sendRedirect("LoginFormServlet");
 		} else {
 
 			String requestURI = request.getRequestURI();
@@ -37,7 +38,7 @@ public class MyBoardFrontServlet extends HttpServlet {
 			MyBoardService service = new MyBoardService();
 
 			if (command.equals("/list.board")) {
-				
+
 				String curPage = request.getParameter("curPage");
 				if (curPage == null)
 					curPage = "1";
@@ -48,22 +49,46 @@ public class MyBoardFrontServlet extends HttpServlet {
 				HashMap<String, String> map = new HashMap();
 				map.put("searchName", searchName);
 				map.put("searchValue", searchValue);
-				map.put("userId",login.getUserid());
+				map.put("userId", login.getUserid());
 
 				try {
 
-					PageDTO pdto = service.pageboard(map,Integer.parseInt(curPage));
+					PageDTO pdto = service.pageboard(map, Integer.parseInt(curPage));
 					request.setAttribute("bList", pdto);
 					target = "myBoardList.jsp";
 				} catch (MyException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				RequestDispatcher dis = request.getRequestDispatcher(target);
+				dis.forward(request, response);
+			} else if (command.equals("/writeui.board")) {
+				request.setAttribute("login", login);
+				target = "board/boardwrite.jsp";
+				
+				RequestDispatcher dis = request.getRequestDispatcher(target);
+				dis.forward(request, response);
+			} else if (command.equals("/write.board")) {
 
+				String title = request.getParameter("title");
+				String content = request.getParameter("content");
+				String author = request.getParameter("author");
+				MyBoardDTO dto = new MyBoardDTO();
+
+				dto.setAuthor(author);
+				dto.setContent(content);
+				dto.setTitle(title);
+
+				try {
+					service.writeboard(dto);
+				} catch (MyException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				target="list.board";
+				response.sendRedirect(target);
 			}
 
-			RequestDispatcher dis = request.getRequestDispatcher(target);
-			dis.forward(request, response);
 		}
 	}
 

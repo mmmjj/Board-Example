@@ -23,7 +23,7 @@ public class MyBoardDAO {
 		int length = PageDTO.getPerCount();
 
 		List<MyBoardDTO> list = session.selectList("myBoardSearchList", map,new RowBounds(sIndex, length));
-
+		System.out.println(list);
 		// pagedto에 저장하기
 		int totalPage = 0;
 		pdto.setList(list);
@@ -41,4 +41,10 @@ public class MyBoardDAO {
 		return pdto;
 	}
 
+	
+	public int writeboard(SqlSession session, MyBoardDTO dto) {
+		int n = session.insert("writeboard",dto);
+		System.out.println(n);
+		return n;
+	}
 }
